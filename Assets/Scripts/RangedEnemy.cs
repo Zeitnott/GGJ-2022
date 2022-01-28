@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-public class CommonEnemy : Enemy
+
+public class RangedEnemy : Enemy
 {
+    [SerializeField] float attackPower = 5f;
+    [SerializeField] float attackSpeed = 2f;
+    private float cooldown;
+    private bool canaffect;
     private GameObject player;
-    [SerializeField] float attackPower = 10f;
-    [SerializeField] float attackSpeed = 3f;
-    private  float cooldown;
-    new bool canAffect = true;
     private void Start()
     {
         cooldown = 1 / attackSpeed;
@@ -23,27 +23,23 @@ public class CommonEnemy : Enemy
     {
         base.TakeDamage(damage);
     }
+    protected override void Die()
+    {
+        base.Die();
+    }
     private void Update()
     {
         distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
-        if(distanceToTarget < 1.5f)
+        if (distanceToTarget < 8f)
         {
             TargetInRange();
         }
-        else
-        {
-            GoTo(player);
-        }
     }
-    protected override float distanceToTarget { get ; set ; }
+    protected override float distanceToTarget { get; set; }
     protected override void TargetInRange()
     {
         enemyAgent.isStopped = true;
         ApplyDamage(attackPower);
-    }
-    protected override void Die()
-    {
-        base.Die();
     }
     private void ApplyDamage(float attackPower)
     {
@@ -57,5 +53,4 @@ public class CommonEnemy : Enemy
         yield return new WaitForSeconds(cooldown);
         canAffect = true;
     }
-    
 }
