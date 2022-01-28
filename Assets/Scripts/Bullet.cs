@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPooledObject
 {
     private Rigidbody bullet;
 
@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
 
     private Transform startPosition;
 
-    private void Start()
+    public void OnObjectSpawn()
     {
         bullet = GetComponent<Rigidbody>();
         bullet.transform.rotation = GameObject.Find("Player").transform.rotation;
@@ -24,6 +24,6 @@ public class Bullet : MonoBehaviour
 
     private void Die()
     {
-        Destroy(gameObject);
+        
     }
 }

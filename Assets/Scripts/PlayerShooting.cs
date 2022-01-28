@@ -10,6 +10,8 @@ public class PlayerShooting : MonoBehaviour
 
     private bool canShoot;
 
+    private ObjectPooler objectPooler;
+
     private void Start()
     {
         PlayerMovement.OnSwitchMode += SwithShootingMode;
@@ -32,8 +34,7 @@ public class PlayerShooting : MonoBehaviour
         {
             yield return new WaitForSeconds(1 / rate);
 
-            GameObject projectileClone = Instantiate(projectile);
-            projectileClone.transform.position = firePoint.position;
+            ObjectPooler.Instance.SpawnFromPool("Bullet", firePoint.position, Quaternion.identity);
         }
     }
 }
