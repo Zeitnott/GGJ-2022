@@ -1,20 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public static event Action OnSwitchMode;
 
     private Rigidbody rb;
 
-    public float speed;
-
     private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
 
     private bool canWalk { get; set; }
+
+    [SerializeField] float speed;
+    [SerializeField] float fireRate;
+    [SerializeField] float projectileSpeed;
+    [SerializeField] float damage;
+    [SerializeField] float health;
 
     private void Start()
     {

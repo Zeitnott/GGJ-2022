@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    public GameObject projectile;
-    public Transform firePoint;
-    public float rate;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform firePoint;
+    [SerializeField] float rate;
 
     private bool canShoot;
 
-    private ObjectPooler objectPooler;
+    private Player player;
 
     private void Start()
     {
-        PlayerMovement.OnSwitchMode += SwithShootingMode;
+        player = GetComponent<Player>();
+
+        Player.OnSwitchMode += SwitchShootingMode;
         canShoot = false;
     }
 
-    private void SwithShootingMode() 
+    private void SwitchShootingMode() 
     {
         canShoot = !canShoot;
 

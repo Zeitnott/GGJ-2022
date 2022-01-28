@@ -6,10 +6,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 {
     private Rigidbody bullet;
 
-    public float speed;
-    public float alloudDistance;
-
-    private Transform startPosition;
+    [SerializeField] float speed;
 
     public void OnObjectSpawn()
     {
