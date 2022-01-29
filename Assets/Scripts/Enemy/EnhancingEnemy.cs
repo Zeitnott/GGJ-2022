@@ -7,7 +7,6 @@ public class EnhancingEnemy : Enemy
     [SerializeField] float amplificationPower = 1;
     [SerializeField] float amplificationSpeed = 0.5f;
     private float cooldown;
-    private bool canAffect = true;
     private GameObject[] a_targets;
     private GameObject closestTarget;
     private void Start()
@@ -42,7 +41,7 @@ public class EnhancingEnemy : Enemy
     {
         if (!canAffect) return;
         //Enhance logic
-        Debug.Log($"Враг {closestTarget.name} усилен ");
+        Debug.Log($"пїЅпїЅпїЅпїЅ {closestTarget.name} пїЅпїЅпїЅпїЅпїЅпїЅ ");
         canAffect = false;
         StartCoroutine(Reload());
     }
@@ -60,7 +59,7 @@ public class EnhancingEnemy : Enemy
                 GoTo(GetClosestTarget());
             }
         }
-        else Debug.Log("Нет живых врагов!");
+        else Debug.Log("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!");
     }
     protected override IEnumerator Reload()
     {

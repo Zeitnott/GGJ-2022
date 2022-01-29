@@ -1,25 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
+using Stats;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-
 public class HealthBar : MonoBehaviour
 {
-    private Player player;
+	[SerializeField] private StatsContainer _stats;
+
     private Slider slider;
+    private float _maxHealth;
 
-    private void Start()
+    private void Awake()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        slider = GetComponent<Slider>();
+	    slider = GetComponent<Slider>();
+	    _maxHealth = _stats.health.Value;
 
-        slider.maxValue = player.Health;
+	    DrawHealth(_stats.health.Value);
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        slider.value = player.Health;
+	    _stats.health.onChangedStat += ChangeHealthHandler;
+    }
+
+    private void OnDisable()
+    {
+	    _stats.health.onChangedStat -= ChangeHealthHandler;
+    }
+
+    private void ChangeHealthHandler(float value)
+    {
+	    DrawHealth(value);
+    }
+
+    private void DrawHealth(float value)
+    {
+	    slider.value = value / _maxHealth;
     }
 }
