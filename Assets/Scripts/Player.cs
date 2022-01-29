@@ -5,6 +5,8 @@ public class Player : MonoBehaviour
 {
     public static event Action OnSwitchMode;
 
+    public HealthBar healthBar;
+
     private Rigidbody rb;
 
     private float turnSmoothTime = 0.1f;
@@ -41,6 +43,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+            Health--;
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -61,6 +66,11 @@ public class Player : MonoBehaviour
             rb.velocity = transform.forward * speed;
         else
             rb.velocity = new Vector3(0, 0, 0);
+
+        if (Health <= 0)
+        {
+            Die();
+        }
     }
 
     private Quaternion RotatePlayer(Vector3 _direction) 
@@ -75,5 +85,10 @@ public class Player : MonoBehaviour
     {
         canWalk = !canWalk;
         OnSwitchMode?.Invoke();
+    }
+
+    private void Die() 
+    {
+        Debug.Log("You Dead");
     }
 }
