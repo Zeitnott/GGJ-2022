@@ -7,7 +7,7 @@ public class RangedEnemy : Enemy
     [SerializeField] float attackPower = 5f;
     [SerializeField] float attackSpeed = 2f;
     private float cooldown;
-    private bool canaffect;
+    private bool canAffect;
     private GameObject player;
     private void Start()
     {

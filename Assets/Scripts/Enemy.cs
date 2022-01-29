@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class Enemy : MonoBehaviour
 {
-    protected bool canAffect = true;
+    private bool canAffect = true;
     private  float health;
     public float Health
     {

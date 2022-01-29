@@ -8,7 +8,7 @@ public class CommonEnemy : Enemy
     [SerializeField] float attackPower = 10f;
     [SerializeField] float attackSpeed = 3f;
     private  float cooldown;
-    new bool canAffect = true;
+    bool canAffect = true;
     private void Start()
     {
         cooldown = 1 / attackSpeed;
