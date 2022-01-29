@@ -5,18 +5,19 @@ using UnityEngine;
 public class Bullet : MonoBehaviour, IPooledObject
 {
     private Rigidbody bullet;
-
-    [SerializeField] float speed;
+    private Player player;
 
     public void OnObjectSpawn()
     {
+        player = GameObject.Find("Player").GetComponent<Player>();
+
         bullet = GetComponent<Rigidbody>();
         bullet.transform.rotation = GameObject.Find("Player").transform.rotation;
     }
 
     private void FixedUpdate()
     {
-        bullet.velocity = transform.forward * speed;
+        bullet.velocity = transform.forward * player.projectileSpeed;
     }
 
     private void Die()

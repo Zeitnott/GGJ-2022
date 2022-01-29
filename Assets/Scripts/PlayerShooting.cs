@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
+
 public class PlayerShooting : MonoBehaviour
 {
     [SerializeField] GameObject projectile;
@@ -34,9 +36,12 @@ public class PlayerShooting : MonoBehaviour
     {
         while(true)
         {
-            yield return new WaitForSeconds(1 / rate);
+            yield return new WaitForSeconds(1 / player.fireRate);
 
-            ObjectPooler.Instance.SpawnFromPool("Bullet", firePoint.position, Quaternion.identity);
+            if (player.ShootAvailable)
+            {
+                ObjectPooler.Instance.SpawnFromPool("Bullet", firePoint.position, Quaternion.identity);
+            }
         }
     }
 }

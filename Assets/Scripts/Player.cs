@@ -10,13 +10,16 @@ public class Player : MonoBehaviour
     private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
 
-    private bool canWalk { get; set; }
+    private Vector3 direction;
 
-    [SerializeField] float speed;
-    [SerializeField] float fireRate;
-    [SerializeField] float projectileSpeed;
-    [SerializeField] float damage;
-    [SerializeField] float health;
+    private bool canWalk { get; set; }
+    public bool ShootAvailable;
+
+    public float speed { get; set; } = 10;
+    public float fireRate { get; set; } = 3;
+    public float projectileSpeed { get; set; } = 15;
+    public float damage { get; set; }
+    public float health { get; set; }
 
     private void Start()
     {
@@ -30,20 +33,23 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-
-        transform.rotation = RotatePlayer(direction);
+        direction = new Vector3(horizontal, 0, vertical).normalized;
 
         if (Input.GetKeyDown(KeyCode.Space))
             SwithMode();
 
-        if (direction.magnitude >= 0.1f && canWalk)
+        if (direction.magnitude > 0.1f)
         {
+            transform.rotation = RotatePlayer(direction);
+            ShootAvailable = true;
+        }
+        else
+            ShootAvailable = false;
+
+        if (canWalk && direction.magnitude > 0.1f)
             rb.velocity = transform.forward * speed;
-        }
-        else{
+        else
             rb.velocity = new Vector3(0, 0, 0);
-        }
     }
 
     private Quaternion RotatePlayer(Vector3 _direction) 
