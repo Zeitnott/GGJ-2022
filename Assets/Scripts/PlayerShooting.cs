@@ -79,5 +79,11 @@ public class PlayerShooting : MonoBehaviour
         {
             player.Ammo++;
         }
+
+        if (player.Ammo <= 0)
+            reloading = true;
+
+        if (player.Ammo == maxAmmo)
+            reloading = false;
     }
 }
