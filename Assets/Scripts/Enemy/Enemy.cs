@@ -5,7 +5,8 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class Enemy : MonoBehaviour
-{   
+{
+    private bool canAffect = true;
     private  float health;
     public float Health
     {
@@ -39,8 +40,19 @@ public abstract class Enemy : MonoBehaviour
         //TO DO
         enemyAgent.acceleration = 999;
         enemyAgent.angularSpeed = 999;
+       // rechargeTime = 1/attackSpeed;
     }
-    public abstract void TakeDamage(float damage);
+    public virtual void TakeDamage(float damage)
+    {
+        if (Health > damage)
+        {
+            Health -= damage;
+        }
+        else
+        {
+            Die();
+        }
+    }
     public virtual void GoTo(GameObject r_target)
     {
         target = r_target;
@@ -52,5 +64,13 @@ public abstract class Enemy : MonoBehaviour
     }
     protected abstract float distanceToTarget { get; set; }
     protected abstract void TargetInRange();
-    protected abstract void Die();
+    protected virtual void Die()
+    {
+        Destroy(gameObject);
+    }
+    protected virtual IEnumerator Reload()
+    { 
+            yield return new WaitForSeconds(2);
+            canAffect = true;
+    }
 }
