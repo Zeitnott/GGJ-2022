@@ -1,12 +1,17 @@
 using System;
+using UnityEngine;
 
 namespace Stats
 {
-    public class FloatStat : Stat<float>
+	[Serializable]
+	public class FloatStat
     {
-        public event Action<float> onChangedStat;
-        
-        public void Increase(float increaseValue)
+	    public event Action<float> onChangedStat;
+
+	    [SerializeField]
+	    private float _value;
+
+	    public void Increase(float increaseValue)
         {
             _value += increaseValue;
             onChangedStat?.Invoke(_value);
