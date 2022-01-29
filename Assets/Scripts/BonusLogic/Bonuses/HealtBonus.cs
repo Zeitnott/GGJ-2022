@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BonusLogic.Bonuses
 {
-    public class HealthBonus : BaseBonus
+	public class HealthBonus : BaseBonus
     {
         [SerializeField] 
         private float _increaseHealthValue;

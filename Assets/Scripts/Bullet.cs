@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         player = GameObject.Find("Player").GetComponent<Player>();
 
         bullet = GetComponent<Rigidbody>();
+        bullet.velocity = Vector3.zero;
         bullet.transform.rotation = GameObject.Find("Player").transform.rotation;
     }
 
