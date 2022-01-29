@@ -6,9 +6,11 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    [SerializeField] GameObject projectile;
-    [SerializeField] Transform firePoint;
+    [SerializeField] private GameObject projectile;
+    [SerializeField] private Transform firePoint;
 
+
+    private bool reloading;
     private bool canShoot;
     private int maxAmmo;
 
@@ -22,6 +24,11 @@ public class PlayerShooting : MonoBehaviour
         canShoot = false;
 
         maxAmmo = player.Ammo;
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     private void SwitchShootingMode() 
@@ -40,16 +47,23 @@ public class PlayerShooting : MonoBehaviour
         {
             yield return new WaitForSeconds(1 / player.FireRate);
 
-            if (player.ShootAvailable && player.Ammo > 0)
+            if (player.ShootAvailable && player.Ammo > 0 && !reloading)
             {
                 ObjectPooler.Instance.SpawnFromPool("Bullet", firePoint.position, Quaternion.identity);
                 player.Ammo--;
             }
-            else 
+            else if(player.Ammo <= maxAmmo)
             {
-                yield return new WaitForSeconds(3);
-                player.Ammo = maxAmmo;
+                yield return new WaitForSeconds(0.2f);
+
+                player.Ammo++;
             }
+
+            if (player.Ammo <= 0)
+                reloading = true;
+
+            if (player.Ammo == maxAmmo)
+                reloading = false;
         }
     }
 }
