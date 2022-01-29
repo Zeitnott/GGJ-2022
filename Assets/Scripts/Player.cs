@@ -17,11 +17,7 @@ public class Player : MonoBehaviour
 
     private bool canWalk { get; set; }
     public bool ShootAvailable { get; set; }
-
-    public float Speed { get; set; }
-    public float FireRate { get; set; }
     public float ProjectileSpeed { get; set; }
-    public float Damage { get; set; }
     public int Points { get; set; }
     public StatsContainer stats => _stats;
 

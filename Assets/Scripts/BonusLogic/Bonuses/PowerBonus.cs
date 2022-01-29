@@ -10,7 +10,7 @@ namespace BonusLogic.Bonuses
         {
             if (bonusReceiver.TryGetComponent<StatsContainer>(out var statContainer))
             {
-                statContainer.health.Increase(increasePowerValue);
+                statContainer.power.Increase(increasePowerValue);
             }
             base.Receive(bonusReceiver);
         }
