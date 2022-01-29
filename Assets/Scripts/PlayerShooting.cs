@@ -8,9 +8,9 @@ public class PlayerShooting : MonoBehaviour
 {
     [SerializeField] GameObject projectile;
     [SerializeField] Transform firePoint;
-    [SerializeField] float rate;
 
     private bool canShoot;
+    private int maxAmmo;
 
     private Player player;
 
@@ -20,6 +20,8 @@ public class PlayerShooting : MonoBehaviour
 
         Player.OnSwitchMode += SwitchShootingMode;
         canShoot = false;
+
+        maxAmmo = player.Ammo;
     }
 
     private void SwitchShootingMode() 
@@ -38,9 +40,15 @@ public class PlayerShooting : MonoBehaviour
         {
             yield return new WaitForSeconds(1 / player.FireRate);
 
-            if (player.ShootAvailable)
+            if (player.ShootAvailable && player.Ammo > 0)
             {
                 ObjectPooler.Instance.SpawnFromPool("Bullet", firePoint.position, Quaternion.identity);
+                player.Ammo--;
+            }
+            else 
+            {
+                yield return new WaitForSeconds(3);
+                player.Ammo = maxAmmo;
             }
         }
     }

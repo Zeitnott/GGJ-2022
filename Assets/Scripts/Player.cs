@@ -21,22 +21,31 @@ public class Player : MonoBehaviour
     public float FireRate { get; set; }
     public float ProjectileSpeed { get; set; }
     public float Damage { get; set; }
+    public int Ammo { get; set; }
     public float Health { get; set; }
+    public int Points { get; set; }
 
     [SerializeField] private float speed;
     [SerializeField] private float fireRate;
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float damage;
+    [SerializeField] private int ammo;
     [SerializeField] private float health;
 
-    private void Start()
+    public int aaa;
+
+    private void Awake()
     {
         Speed = speed;
         FireRate = fireRate;
         ProjectileSpeed = projectileSpeed;
         Damage = damage;
         Health = health;
-
+        Ammo = ammo;
+        Points = 0;
+    }
+    private void Start()
+    {
         rb = GetComponent<Rigidbody>();
         canWalk = true;
     }
