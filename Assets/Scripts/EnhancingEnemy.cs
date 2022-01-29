@@ -35,7 +35,7 @@ public class EnhancingEnemy : Enemy
                     yield return null;
                 }
                 Debug.Log(enemyAgent.pathStatus.ToString());
-
+                TargetInRange();
                 if(enemyAgent.pathStatus != NavMeshPathStatus.PathInvalid)
                 {
                     float pathDistance = 0;
@@ -70,6 +70,7 @@ public class EnhancingEnemy : Enemy
     {
         if (!canAffect) return;
         //Enhance logic
+        Debug.Log($"Враг усилен ");
         canAffect = false;
         StartCoroutine(Reload());
     }
