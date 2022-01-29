@@ -2,28 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPooledObject
 {
     private Rigidbody bullet;
+    private Player player;
 
-    public float speed;
-    public float alloudDistance;
-
-    private Transform startPosition;
-
-    private void Start()
+    public void OnObjectSpawn()
     {
+        player = GameObject.Find("Player").GetComponent<Player>();
+
         bullet = GetComponent<Rigidbody>();
         bullet.transform.rotation = GameObject.Find("Player").transform.rotation;
     }
 
     private void FixedUpdate()
     {
-        bullet.velocity = transform.forward * speed;
+        bullet.velocity = transform.forward * player.ProjectileSpeed;
     }
 
     private void Die()
     {
-        Destroy(gameObject);
+        
     }
 }
