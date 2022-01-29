@@ -1,24 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
+using Stats;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(NavMeshAgent), typeof(StatsContainer))]
 public abstract class Enemy : MonoBehaviour
 {
-    private bool canAffect = true;
-    private  float health;
-    public float Health
-    {
-        get { return health; }
-        set
-        {
-            if (health > 0)
-            {
-                health = value;
-            }
-        }
-    }
+    protected bool canAffect = true;
 
     private float speed = 3.5f; 
     public float Speed
@@ -31,10 +19,16 @@ public abstract class Enemy : MonoBehaviour
             }
         }
     }
+
+    protected abstract float distanceToTarget { get; set; }
+
     protected NavMeshAgent enemyAgent;
     protected GameObject target;
+    private StatsContainer _stats;
+
     protected void Awake()
     {
+	    _stats = GetComponent<StatsContainer>();
         enemyAgent = GetComponent<NavMeshAgent>();
         enemyAgent.speed = Speed;
         //TO DO
@@ -42,17 +36,30 @@ public abstract class Enemy : MonoBehaviour
         enemyAgent.angularSpeed = 999;
        // rechargeTime = 1/attackSpeed;
     }
+
+    private void OnEnable()
+    {
+	    _stats.health.onChangedStat += ChangeHealthHandler;
+    }
+
+    private void OnDisable()
+    {
+	    _stats.health.onChangedStat -= ChangeHealthHandler;
+    }
+
     public virtual void TakeDamage(float damage)
     {
-        if (Health > damage)
-        {
-            Health -= damage;
-        }
-        else
-        {
-            Die();
-        }
+        _stats.health.Decrease(damage);
     }
+
+    private void ChangeHealthHandler(float value)
+    {
+	    if (value <= 0)
+	    {
+		    Die();
+	    }
+    }
+
     public virtual void GoTo(GameObject r_target)
     {
         target = r_target;
@@ -62,12 +69,14 @@ public abstract class Enemy : MonoBehaviour
             enemyAgent.isStopped = false;
         }
     }
-    protected abstract float distanceToTarget { get; set; }
+
     protected abstract void TargetInRange();
+
     protected virtual void Die()
     {
         Destroy(gameObject);
     }
+
     protected virtual IEnumerator Reload()
     { 
             yield return new WaitForSeconds(2);

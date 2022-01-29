@@ -8,6 +8,8 @@ namespace Stats
     {
 	    public event Action<float> onChangedStat;
 
+	    public float Value => _value;
+
 	    [SerializeField]
 	    private float _value;
 

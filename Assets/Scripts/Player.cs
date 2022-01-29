@@ -1,11 +1,11 @@
 using System;
+using Stats;
 using UnityEngine;
 
+[RequireComponent(typeof(StatsContainer))]
 public class Player : MonoBehaviour
 {
     public static event Action OnSwitchMode;
-
-    public HealthBar healthBar;
 
     private Rigidbody rb;
 
@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     public float ProjectileSpeed { get; set; }
     public float Damage { get; set; }
     public int Ammo { get; set; }
-    public float Health { get; set; }
     public int Points { get; set; }
 
     [SerializeField] private float speed;
@@ -30,18 +29,38 @@ public class Player : MonoBehaviour
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float damage;
     [SerializeField] private int ammo;
-    [SerializeField] private float health;
+
+    private StatsContainer _stats;
 
     private void Awake()
     {
+	    _stats = GetComponent<StatsContainer>();
         Speed = speed;
         FireRate = fireRate;
         ProjectileSpeed = projectileSpeed;
         Damage = damage;
-        Health = health;
         Ammo = ammo;
         Points = 0;
     }
+
+    private void OnEnable()
+    {
+	    _stats.health.onChangedStat += ChangeHealthHandler;
+    }
+
+    private void OnDisable()
+    {
+	    _stats.health.onChangedStat -= ChangeHealthHandler;
+    }
+
+    private void ChangeHealthHandler(float value)
+    {
+	    if (value <= 0)
+	    {
+		    Die();
+	    }
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -51,7 +70,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
-            Health--;
+            _stats.health.Decrease(1);
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -73,11 +92,6 @@ public class Player : MonoBehaviour
             rb.velocity = transform.forward * speed;
         else
             rb.velocity = new Vector3(0, 0, 0);
-
-        if (Health <= 0)
-        {
-            Die();
-        }
     }
 
     private Quaternion RotatePlayer(Vector3 _direction) 
