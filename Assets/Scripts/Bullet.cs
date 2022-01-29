@@ -20,8 +20,8 @@ public class Bullet : MonoBehaviour, IPooledObject
         bullet.velocity = transform.forward * player.ProjectileSpeed;
     }
 
-    private void Die()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        gameObject.SetActive(false);
     }
 }

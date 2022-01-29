@@ -1,6 +1,7 @@
 using System;
 using Stats;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(StatsContainer))]
 public class Player : MonoBehaviour
@@ -92,6 +93,11 @@ public class Player : MonoBehaviour
             rb.velocity = transform.forward * speed;
         else
             rb.velocity = new Vector3(0, 0, 0);
+
+        if (GetComponent<StatsContainer>().health.Value < 0)
+        {
+            Die();
+        }
     }
 
     private Quaternion RotatePlayer(Vector3 _direction) 
@@ -110,6 +116,16 @@ public class Player : MonoBehaviour
 
     private void Die() 
     {
+        SceneManager.LoadScene("Start Menu");
         Debug.Log("You Dead");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Enemy") 
+        {
+            GetComponent<StatsContainer>().health.Decrease(GameObject.FindGameObjectWithTag("Enemy").GetComponent<StatsContainer>().power.Value);
+            Debug.Log(GetComponent<StatsContainer>().health.Value);
+        }
     }
 }

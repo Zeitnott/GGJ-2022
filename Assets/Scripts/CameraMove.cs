@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     [SerializeField] GameObject player;
-    private Vector3 offset = new Vector3(0, 70, -60);
+    private Vector3 offset = new Vector3(0, 40, -30);
     private void OnEnable()
     {
         PlayerController.OnSwitchMode += SwitchCameraMode;

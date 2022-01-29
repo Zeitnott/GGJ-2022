@@ -82,4 +82,13 @@ public abstract class Enemy : MonoBehaviour
             yield return new WaitForSeconds(2);
             canAffect = true;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Bullet")
+        {
+            TakeDamage(GameObject.Find("Player").GetComponent<StatsContainer>().health.Value);
+            collision.gameObject.SetActive(false);
+        }
+    }
 }
