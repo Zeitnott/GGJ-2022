@@ -48,7 +48,7 @@ public class EnhancingEnemy : Enemy
     }
     private void Update()
     {
-        if (a_targets != null)
+        if (a_targets.Length > 0)
         {
             distanceToTarget = Vector3.Distance(transform.position, GetClosestTarget().transform.position);
             if (distanceToTarget < 2f)
