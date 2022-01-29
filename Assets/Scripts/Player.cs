@@ -1,9 +1,10 @@
 using System;
+using BonusLogic.Effects;
 using Stats;
 using UnityEngine;
 
 [RequireComponent(typeof(StatsContainer))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IStatsEffectReceiver
 {
     public static event Action OnSwitchMode;
 
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     public float Damage { get; set; }
     public int Ammo { get; set; }
     public int Points { get; set; }
+    public StatsContainer stats => _stats;
 
     [SerializeField] private float speed;
     [SerializeField] private float fireRate;

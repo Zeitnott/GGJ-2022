@@ -1,12 +1,15 @@
 using System.Collections;
+using BonusLogic.Effects;
 using Stats;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(StatsContainer))]
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour, IStatsEffectReceiver
 {
     protected bool canAffect = true;
+
+    public StatsContainer stats => _stats;
 
     private float speed = 3.5f; 
     public float Speed
