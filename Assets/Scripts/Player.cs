@@ -13,18 +13,29 @@ public class Player : MonoBehaviour
     private Vector3 direction;
 
     private bool canWalk { get; set; }
-    public bool ShootAvailable;
+    public bool ShootAvailable { get; set; }
 
-    public float speed { get; set; } = 10;
-    public float fireRate { get; set; } = 3;
-    public float projectileSpeed { get; set; } = 15;
-    public float damage { get; set; }
-    public float health { get; set; }
+    public float Speed { get; set; }
+    public float FireRate { get; set; }
+    public float ProjectileSpeed { get; set; }
+    public float Damage { get; set; }
+    public float Health { get; set; }
+
+    [SerializeField] private float speed;
+    [SerializeField] private float fireRate;
+    [SerializeField] private float projectileSpeed;
+    [SerializeField] private float damage;
+    [SerializeField] private float health;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        Speed = speed;
+        FireRate = fireRate;
+        ProjectileSpeed = projectileSpeed;
+        Damage = damage;
+        Health = health;
 
+        rb = GetComponent<Rigidbody>();
         canWalk = true;
     }
 

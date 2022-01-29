@@ -36,7 +36,7 @@ public class PlayerShooting : MonoBehaviour
     {
         while(true)
         {
-            yield return new WaitForSeconds(1 / player.fireRate);
+            yield return new WaitForSeconds(1 / player.FireRate);
 
             if (player.ShootAvailable)
             {

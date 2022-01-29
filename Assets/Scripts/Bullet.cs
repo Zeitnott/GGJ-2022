@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     private void FixedUpdate()
     {
-        bullet.velocity = transform.forward * player.projectileSpeed;
+        bullet.velocity = transform.forward * player.ProjectileSpeed;
     }
 
     private void Die()
