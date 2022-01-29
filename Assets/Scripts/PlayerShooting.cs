@@ -43,7 +43,7 @@ public class PlayerShooting : MonoBehaviour
         else
         {
             StopAllCoroutines();
-            InvokeRepeating("Reload", 0, 0.4f);
+            InvokeRepeating("Reload", 0, player.FireRate * 0.2f);
         }
     }
 
@@ -79,5 +79,11 @@ public class PlayerShooting : MonoBehaviour
         {
             player.Ammo++;
         }
+
+        if (player.Ammo <= 0)
+            reloading = true;
+
+        if (player.Ammo == maxAmmo)
+            reloading = false;
     }
 }

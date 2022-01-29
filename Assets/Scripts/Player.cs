@@ -32,8 +32,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int ammo;
     [SerializeField] private float health;
 
-    public int aaa;
-
     private void Awake()
     {
         Speed = speed;
@@ -63,7 +61,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             SwithMode();
 
-        if (direction.magnitude > 0.1f)
+        if (direction.magnitude > 0.2f)
         {
             transform.rotation = RotatePlayer(direction);
             ShootAvailable = true;
