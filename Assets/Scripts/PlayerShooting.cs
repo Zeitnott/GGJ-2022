@@ -36,9 +36,15 @@ public class PlayerShooting : MonoBehaviour
         canShoot = !canShoot;
 
         if (canShoot)
+        {
+            CancelInvoke();
             StartCoroutine(Shooting());
+        }
         else
+        {
             StopAllCoroutines();
+            InvokeRepeating("Reload", 0, player.FireRate * 0.2f);
+        }
     }
 
     IEnumerator Shooting() 
@@ -65,5 +71,19 @@ public class PlayerShooting : MonoBehaviour
             if (player.Ammo == maxAmmo)
                 reloading = false;
         }
+    }
+
+    private void Reload() 
+    {
+        if (player.Ammo <= maxAmmo) 
+        {
+            player.Ammo++;
+        }
+
+        if (player.Ammo <= 0)
+            reloading = true;
+
+        if (player.Ammo == maxAmmo)
+            reloading = false;
     }
 }

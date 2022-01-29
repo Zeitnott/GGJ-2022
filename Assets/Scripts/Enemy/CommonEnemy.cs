@@ -8,7 +8,6 @@ public class CommonEnemy : Enemy
     [SerializeField] float attackPower = 10f;
     [SerializeField] float attackSpeed = 3f;
     private  float cooldown;
-    bool canAffect = true;
     private void Start()
     {
         cooldown = 1 / attackSpeed;
@@ -49,7 +48,7 @@ public class CommonEnemy : Enemy
     {
         if (!canAffect) return;
         canAffect = false;
-        Debug.Log($"Игроку нанесено {attackPower} урона");
+        Debug.Log($"пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {attackPower} пїЅпїЅпїЅпїЅпїЅ");
         StartCoroutine(Reload());
     }
     protected override IEnumerator Reload()
