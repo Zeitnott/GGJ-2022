@@ -7,7 +7,7 @@ public class RangedEnemy : Enemy
     [SerializeField] float attackPower = 5f;
     [SerializeField] float attackSpeed = 2f;
     private float cooldown;
-    private bool canAffect;
+    private bool canAffect = true;
     private GameObject player;
     private void Start()
     {
@@ -33,6 +33,10 @@ public class RangedEnemy : Enemy
         if (distanceToTarget < 8f)
         {
             TargetInRange();
+        }
+        else
+        {
+            GoTo(player);
         }
     }
     protected override float distanceToTarget { get; set; }
