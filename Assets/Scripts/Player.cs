@@ -2,6 +2,7 @@ using System;
 using BonusLogic.Effects;
 using Stats;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(StatsContainer))]
 public class Player : MonoBehaviour, IStatsEffectReceiver
@@ -94,6 +95,11 @@ public class Player : MonoBehaviour, IStatsEffectReceiver
             rb.velocity = transform.forward * speed;
         else
             rb.velocity = new Vector3(0, 0, 0);
+
+        if (GetComponent<StatsContainer>().health.Value < 0)
+        {
+            Die();
+        }
     }
 
     private Quaternion RotatePlayer(Vector3 _direction) 
@@ -112,6 +118,27 @@ public class Player : MonoBehaviour, IStatsEffectReceiver
 
     private void Die() 
     {
+        SceneManager.LoadScene("Start Menu");
+        CancelInvoke();
         Debug.Log("You Dead");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Enemy") 
+        {
+            InvokeRepeating("GetDamage", 0, 1f);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        CancelInvoke();
+    }
+
+    private void GetDamage()
+    {
+        float damage = GameObject.FindGameObjectWithTag("Enemy").GetComponent<StatsContainer>().power.Value;
+        GetComponent<StatsContainer>().health.Decrease(damage);
     }
 }

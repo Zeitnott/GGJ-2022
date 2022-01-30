@@ -14,7 +14,6 @@ namespace BonusLogic.Bonuses
             {
                 statContainer.health.Increase(_increaseHealthValue);
             }
-            
             base.Receive(bonusReceiver);
         }
     }
