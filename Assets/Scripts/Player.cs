@@ -117,6 +117,7 @@ public class Player : MonoBehaviour
     private void Die() 
     {
         SceneManager.LoadScene("Start Menu");
+        CancelInvoke();
         Debug.Log("You Dead");
     }
 
@@ -124,8 +125,18 @@ public class Player : MonoBehaviour
     {
         if (collision.collider.tag == "Enemy") 
         {
-            GetComponent<StatsContainer>().health.Decrease(GameObject.FindGameObjectWithTag("Enemy").GetComponent<StatsContainer>().power.Value);
-            Debug.Log(GetComponent<StatsContainer>().health.Value);
+            InvokeRepeating("GetDamage", 0, 1f);
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        CancelInvoke();
+    }
+
+    private void GetDamage()
+    {
+        float damage = GameObject.FindGameObjectWithTag("Enemy").GetComponent<StatsContainer>().power.Value;
+        GetComponent<StatsContainer>().health.Decrease(damage);
     }
 }
