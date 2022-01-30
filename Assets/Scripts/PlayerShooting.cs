@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Stats;
 [RequireComponent(typeof(Player))]
 
 public class PlayerShooting : MonoBehaviour
@@ -9,21 +9,21 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform firePoint;
 
-
+    public PlayerContainer _stats;
     private bool reloading;
     private bool canShoot;
-    private int maxAmmo;
+    private float maxAmmo;
 
     private Player player;
 
     private void Start()
     {
         player = GetComponent<Player>();
-
+        _stats = GetComponent<PlayerContainer>();
         Player.OnSwitchMode += SwitchShootingMode;
         canShoot = false;
 
-        maxAmmo = player.Ammo;
+        maxAmmo = _stats.ammo.Value;
     }
 
     private void FixedUpdate()
@@ -43,7 +43,7 @@ public class PlayerShooting : MonoBehaviour
         else
         {
             StopAllCoroutines();
-            InvokeRepeating("Reload", 0, player.FireRate * 0.2f);
+            InvokeRepeating("Reload", 0, _stats.attackSpeed.Value * 0.2f);
         }
     }
 
@@ -51,39 +51,39 @@ public class PlayerShooting : MonoBehaviour
     {
         while(true)
         {
-            yield return new WaitForSeconds(1 / player.FireRate);
+            yield return new WaitForSeconds(1 / _stats.attackSpeed.Value);
 
-            if (player.ShootAvailable && player.Ammo > 0 && !reloading)
+            if (player.ShootAvailable && _stats.ammo.Value > 0 && !reloading)
             {
                 ObjectPooler.Instance.SpawnFromPool("Bullet", firePoint.position, Quaternion.identity);
-                player.Ammo--;
+                _stats.ammo.Decrease(1);
             }
-            else if(player.Ammo <= maxAmmo)
+            else if(_stats.ammo.Value <= maxAmmo)
             {
                 yield return new WaitForSeconds(0.2f);
 
-                player.Ammo++;
+               _stats.ammo.Increase(1);
             }
 
-            if (player.Ammo <= 0)
+            if (_stats.ammo.Value <= 0)
                 reloading = true;
 
-            if (player.Ammo == maxAmmo)
+            if (_stats.ammo.Value == maxAmmo)
                 reloading = false;
         }
     }
 
     private void Reload() 
     {
-        if (player.Ammo <= maxAmmo) 
+        if (_stats.ammo.Value <= maxAmmo) 
         {
-            player.Ammo++;
+            _stats.ammo.Increase(1);
         }
 
-        if (player.Ammo <= 0)
+        if (_stats.ammo.Value <= 0)
             reloading = true;
 
-        if (player.Ammo == maxAmmo)
+        if (_stats.ammo.Value == maxAmmo)
             reloading = false;
     }
 }

@@ -4,8 +4,8 @@ using Stats;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(StatsContainer))]
-public class Player : MonoBehaviour, IStatsEffectReceiver
+[RequireComponent(typeof(PlayerContainer))]
+public class Player : MonoBehaviour
 {
     public static event Action OnSwitchMode;
 
@@ -18,31 +18,19 @@ public class Player : MonoBehaviour, IStatsEffectReceiver
 
     private bool canWalk { get; set; }
     public bool ShootAvailable { get; set; }
-
-    public float Speed { get; set; }
-    public float FireRate { get; set; }
     public float ProjectileSpeed { get; set; }
-    public float Damage { get; set; }
-    public int Ammo { get; set; }
     public int Points { get; set; }
     public StatsContainer stats => _stats;
 
-    [SerializeField] private float speed;
-    [SerializeField] private float fireRate;
     [SerializeField] private float projectileSpeed;
-    [SerializeField] private float damage;
-    [SerializeField] private int ammo;
 
-    private StatsContainer _stats;
+    private PlayerContainer _stats;
 
     private void Awake()
     {
-	    _stats = GetComponent<StatsContainer>();
-        Speed = speed;
-        FireRate = fireRate;
+	    _stats = GetComponent<PlayerContainer>();
+
         ProjectileSpeed = projectileSpeed;
-        Damage = damage;
-        Ammo = ammo;
         Points = 0;
     }
 
@@ -92,7 +80,7 @@ public class Player : MonoBehaviour, IStatsEffectReceiver
             ShootAvailable = false;
 
         if (canWalk && direction.magnitude > 0.1f)
-            rb.velocity = transform.forward * speed;
+            rb.velocity = transform.forward * _stats.speed.Value;
         else
             rb.velocity = new Vector3(0, 0, 0);
 
