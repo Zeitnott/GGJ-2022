@@ -24,5 +24,10 @@ namespace Stats
             _value -= decreaseValue;
             onChangedStat?.Invoke(_value);
         }
+        public void Multiply(float multiplyValue)
+        {
+            _value *= multiplyValue;
+            onChangedStat?.Invoke(_value);
+        }
     }
 }

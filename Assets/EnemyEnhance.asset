@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   datas:
     datas:
-    - weight: 1
+    - weight: 5
       BaseBonus: {fileID: 0}
     - weight: 1
-      BaseBonus: {fileID: 0}
-    - weight: 3
       BaseBonus: {fileID: 0}

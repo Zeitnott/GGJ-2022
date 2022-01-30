@@ -9,6 +9,7 @@ public class RangedEnemy : Enemy
     private float cooldown;
     private bool canAffect = true;
     private GameObject player;
+    [SerializeField] GameObject powerUpPrefab;
     private void Start()
     {
         cooldown = 1 / attackSpeed;
@@ -26,6 +27,10 @@ public class RangedEnemy : Enemy
     protected override void Die()
     {
         base.Die();
+        if (Random.Range(1, 10) > 5)
+        {
+            Instantiate(powerUpPrefab);
+        }
     }
     private void Update()
     {

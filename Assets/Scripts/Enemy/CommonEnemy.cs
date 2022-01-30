@@ -8,6 +8,7 @@ public class CommonEnemy : Enemy
     [SerializeField] float attackPower = 10f;
     [SerializeField] float attackSpeed = 3f;
     private  float cooldown;
+    [SerializeField] GameObject powerUpPrefab;
     private void Start()
     {
         cooldown = 1 / attackSpeed;
@@ -43,6 +44,11 @@ public class CommonEnemy : Enemy
     protected override void Die()
     {
         base.Die();
+        
+        if(Random.Range(1, 10) > 5)
+        {
+            Instantiate(powerUpPrefab);
+        }
     }
     private void ApplyDamage(float attackPower)
     {

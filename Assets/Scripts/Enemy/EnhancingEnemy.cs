@@ -9,6 +9,7 @@ public class EnhancingEnemy : Enemy
     private float cooldown;
     private GameObject[] a_targets;
     private GameObject closestTarget;
+    [SerializeField] GameObject powerUpPrefab;
     private void Start()
     {
         cooldown = 1 / amplificationSpeed;
@@ -65,5 +66,13 @@ public class EnhancingEnemy : Enemy
     {
         yield return new WaitForSeconds(cooldown);
         canAffect = true;
+    }
+    protected override void Die()
+    {
+        base.Die();
+        if (Random.Range(1, 10) > 7)
+        {
+            Instantiate(powerUpPrefab);
+        }
     }
 }

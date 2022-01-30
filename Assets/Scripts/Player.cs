@@ -3,7 +3,9 @@ using BonusLogic.Effects;
 using Stats;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
+using UnityEngine.UI;
+using System.Collections;
 [RequireComponent(typeof(PlayerContainer))]
 public class Player : MonoBehaviour
 {
@@ -20,7 +22,12 @@ public class Player : MonoBehaviour
     public bool ShootAvailable { get; set; }
     public float ProjectileSpeed { get; set; }
     public int Points { get; set; }
-    public StatsContainer stats => _stats;
+    private int expToLvlUp;
+    private int currentLevel = 1;
+
+    [SerializeField] TextMeshProUGUI gameOverText;
+    [SerializeField] TextMesh levelUpText;
+    public PlayerContainer stats => _stats;
 
     [SerializeField] private float projectileSpeed;
 
@@ -32,16 +39,26 @@ public class Player : MonoBehaviour
 
         ProjectileSpeed = projectileSpeed;
         Points = 0;
+
     }
 
     private void OnEnable()
     {
 	    _stats.health.onChangedStat += ChangeHealthHandler;
+        Enemy.OnEnemyDied += GetExp;
+        BonusSet.OnBonusPickUped += GetBonus;
     }
 
     private void OnDisable()
     {
 	    _stats.health.onChangedStat -= ChangeHealthHandler;
+        Enemy.OnEnemyDied -= GetExp;
+        BonusSet.OnBonusPickUped -= GetBonus;
+    }
+
+    private void GetBonus()
+    {
+        _stats.health.Increase(5);
     }
 
     private void ChangeHealthHandler(float value)
@@ -56,6 +73,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         canWalk = true;
+        expToLvlUp = currentLevel * 10;
     }
 
     private void Update()
@@ -106,9 +124,14 @@ public class Player : MonoBehaviour
 
     private void Die() 
     {
-        SceneManager.LoadScene("Start Menu");
+        StartCoroutine(LoadMenuScene());
         CancelInvoke();
-        Debug.Log("You Dead");
+        gameOverText.gameObject.SetActive(true);
+    }
+    private IEnumerator LoadMenuScene()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("Start Menu");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -128,5 +151,27 @@ public class Player : MonoBehaviour
     {
         float damage = GameObject.FindGameObjectWithTag("Enemy").GetComponent<StatsContainer>().power.Value;
         GetComponent<StatsContainer>().health.Decrease(damage);
+    }
+    private void GetExp()
+    {
+        Points += 10;
+        if(Points >= expToLvlUp)
+        {
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        Points = expToLvlUp = 0;
+        currentLevel++;
+        expToLvlUp = currentLevel * 100;
+        levelUpText.gameObject.SetActive(true);
+        StartCoroutine(LevelUpTextVisible());
+    }
+    private IEnumerator LevelUpTextVisible()
+    {
+        yield return new WaitForSeconds(2);
+        levelUpText.gameObject.SetActive(false);
     }
 }

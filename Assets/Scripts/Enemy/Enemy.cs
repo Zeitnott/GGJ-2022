@@ -3,12 +3,12 @@ using BonusLogic.Effects;
 using Stats;
 using UnityEngine;
 using UnityEngine.AI;
-
+using System;
 [RequireComponent(typeof(NavMeshAgent), typeof(StatsContainer))]
 public abstract class Enemy : MonoBehaviour, IStatsEffectReceiver
 {
     protected bool canAffect = true;
-
+    public static Action OnEnemyDied;
     public StatsContainer stats => _stats;
 
     private float speed = 3.5f; 
@@ -78,6 +78,7 @@ public abstract class Enemy : MonoBehaviour, IStatsEffectReceiver
     protected virtual void Die()
     {
         Destroy(gameObject);
+        OnEnemyDied?.Invoke();
     }
 
     protected virtual IEnumerator Reload()

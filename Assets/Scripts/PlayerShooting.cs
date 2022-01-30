@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stats;
+using System;
 [RequireComponent(typeof(Player))]
 
 public class PlayerShooting : MonoBehaviour
@@ -19,7 +20,7 @@ public class PlayerShooting : MonoBehaviour
     private void Start()
     {
         player = GetComponent<Player>();
-        _stats = GetComponent<PlayerContainer>();
+        _stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerContainer>();
         Player.OnSwitchMode += SwitchShootingMode;
         canShoot = false;
 

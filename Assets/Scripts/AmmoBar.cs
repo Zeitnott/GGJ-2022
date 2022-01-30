@@ -10,9 +10,8 @@ public class AmmoBar : MonoBehaviour
     public PlayerContainer _stats;
     private void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
         slider = GetComponent<Slider>();
-        _stats = GetComponent<PlayerContainer>();
+        _stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerContainer>();
         slider.maxValue = _stats.ammo.Value;
     }
     private void OnEnable()

@@ -7,5 +7,7 @@ namespace Stats
     {
         public FloatStat health;
         public FloatStat speed;
+        public FloatStat power;
+        public FloatStat attackSpeed;
     }
 }

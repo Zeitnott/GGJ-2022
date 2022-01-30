@@ -134,3 +134,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amplificationPower: 1
   amplificationSpeed: 0.5
+  powerUpPrefab: {fileID: 1315156475234414856, guid: ce61454d1b6903d4c86a4fe06bc8e66b, type: 3}
